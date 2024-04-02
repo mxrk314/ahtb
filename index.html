@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Job Calculator</title>
+<script>
+function calculateJobs() {
+    var ahtInSeconds = document.getElementById('ahtInSeconds').value;
+    var resultContainer = document.getElementById('result');
+    var hours = 6;
+    var lastIntervalMinutes = 45; // Last interval in minutes
+    
+    resultContainer.innerHTML = ''; // Clear previous results
+
+    if (ahtInSeconds > 0) {
+        for (var i = 1; i <= hours; i++) {
+            var jobsCanComplete = (i * 60 * 60) / ahtInSeconds; // Calculate how many jobs after each hour
+            var ordinal = getOrdinal(i);
+            resultContainer.innerHTML += i.toString() + ordinal + ' HR: ' + Math.floor(jobsCanComplete) + '<br>';
+        }
+        // Add calculation for the last 45 minutes interval
+        var jobsCanCompleteLastInterval = ((hours * 60) + lastIntervalMinutes) * 60 / ahtInSeconds; 
+        resultContainer.innerHTML += '45 MIN: ' + Math.floor(jobsCanCompleteLastInterval) + '<br><br>'; // Added two line breaks
+    } else {
+        resultContainer.innerText = 'Please enter a positive number for AHT in seconds.' + '<br><br>';
+    }
+}
+
+function calculateAHT() {
+    var totalJobs = document.getElementById('totalJobs').value;
+    var totalWorkSeconds = (6 * 60 + 45) * 60; // Total work duration in seconds (6 hours and 45 minutes)
+    var ahtContainer = document.getElementById('ahtResult');
+    
+    ahtContainer.innerHTML = ''; // Clear previous results
+
+    if (totalJobs > 0) {
+        var ahtInSeconds = totalWorkSeconds / totalJobs;
+        ahtContainer.innerHTML = 'Average Handling Time (AHT): ' + ahtInSeconds.toFixed(2) + ' seconds';
+    } else {
+        ahtContainer.innerText = 'Please enter a positive number for total jobs.';
+    }
+}
+
+// Helper function to get the ordinal notation based on the hour
+function getOrdinal(n) {
+    var s=["th","st","nd","rd"],
+    v=n%100;
+    return s[(v-20)%10]||s[v]||s[0];
+}
+</script>
+</head>
+<body>
+
+<h3>Hourly Job Completion Calculator</h3>
+
+<div>
+    <label for="ahtInSeconds">Average Handling Time (AHT) in seconds:</label>
+    <input type="number" id="ahtInSeconds" name="ahtInSeconds" min="1" placeholder="Enter AHT in seconds">
+    <button onclick="calculateJobs()">Calculate</button>
+</div>
+
+<div id="result"></div>
+
+<br><br> <!-- Added line breaks -->
+
+<h3>AHT Calculator for 6 hours 45 minutes</h3>
+
+<div>
+    <label for="totalJobs">Total number of jobs:</label>
+    <input type="number" id="totalJobs" name="totalJobs" min="1" placeholder="Enter total number of jobs">
+    <button onclick="calculateAHT()">Calculate AHT</button>
+</div>
+
+<div id="ahtResult"></div>
+
+</body>
+</html>
