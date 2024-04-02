@@ -3,25 +3,31 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Job Calculator</title>
+<title>Job and AHT Calculators</title>
+<style>
+    hr {
+        border: 0;
+        height: 2px;
+        background-image: linear-gradient(to right, transparent, #333, transparent);
+    }
+</style>
 <script>
 function calculateJobs() {
     var ahtInSeconds = document.getElementById('ahtInSeconds').value;
     var resultContainer = document.getElementById('result');
     var hours = 6;
-    var lastIntervalMinutes = 45; // Last interval in minutes
+    var lastIntervalMinutes = 45;
     
-    resultContainer.innerHTML = ''; // Clear previous results
+    resultContainer.innerHTML = '';
 
     if (ahtInSeconds > 0) {
         for (var i = 1; i <= hours; i++) {
-            var jobsCanComplete = (i * 60 * 60) / ahtInSeconds; // Calculate how many jobs after each hour
+            var jobsCanComplete = (i * 60 * 60) / ahtInSeconds;
             var ordinal = getOrdinal(i);
             resultContainer.innerHTML += i.toString() + ordinal + ' HR: ' + Math.floor(jobsCanComplete) + '<br>';
         }
-        // Add calculation for the last 45 minutes interval
-        var jobsCanCompleteLastInterval = ((hours * 60) + lastIntervalMinutes) * 60 / ahtInSeconds; 
-        resultContainer.innerHTML += '45 MIN: ' + Math.floor(jobsCanCompleteLastInterval) + '<br><br>'; // Added two line breaks
+        var jobsCanCompleteLastInterval = ((hours * 60) + lastIntervalMinutes) * 60 / ahtInSeconds;
+        resultContainer.innerHTML += '45 MIN: ' + Math.floor(jobsCanCompleteLastInterval) + '<br><br>';
     } else {
         resultContainer.innerText = 'Please enter a positive number for AHT in seconds.' + '<br><br>';
     }
@@ -29,20 +35,19 @@ function calculateJobs() {
 
 function calculateAHT() {
     var totalJobs = document.getElementById('totalJobs').value;
-    var totalWorkSeconds = (6 * 60 + 45) * 60; // Total work duration in seconds (6 hours and 45 minutes)
+    var totalWorkSeconds = (6 * 60 + 45) * 60;
     var ahtContainer = document.getElementById('ahtResult');
     
-    ahtContainer.innerHTML = ''; // Clear previous results
+    ahtContainer.innerHTML = '';
 
     if (totalJobs > 0) {
         var ahtInSeconds = totalWorkSeconds / totalJobs;
-        ahtContainer.innerHTML = 'Average Handling Time (AHT): ' + ahtInSeconds.toFixed(2) + ' seconds';
+        ahtContainer.innerHTML = 'Average Handling Time (AHT): <strong>' + ahtInSeconds.toFixed(2) + ' seconds</strong>';
     } else {
         ahtContainer.innerText = 'Please enter a positive number for total jobs.';
     }
 }
 
-// Helper function to get the ordinal notation based on the hour
 function getOrdinal(n) {
     var s=["th","st","nd","rd"],
     v=n%100;
@@ -62,9 +67,11 @@ function getOrdinal(n) {
 
 <div id="result"></div>
 
-<br><br> <!-- Added line breaks -->
+<br>
+<hr>
+<br>
 
-<h3>AHT Calculator for 6 hours 45 minutes</h3>
+<h3>AHT Calculator (6:45 Hours)</h3>
 
 <div>
     <label for="totalJobs">Total number of jobs:</label>
